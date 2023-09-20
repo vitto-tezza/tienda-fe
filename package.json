@@ -30,7 +30,7 @@
     "build": "vite build",
     "dev": "vite",
     "preview": "vite preview",
-    "start": "react-scripts start"
+    "start": "serve dist -s -n -l -p $PORT"
   },
   "eslintConfig": {
     "extends": [
