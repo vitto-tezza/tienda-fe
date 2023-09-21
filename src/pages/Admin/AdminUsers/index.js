@@ -29,7 +29,7 @@ function UserManagement() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
-    axios.get("http://localhost:4000/auth/users").then((response) => {
+    axios.get("https://tienda-be-production.up.railway.app/auth/users").then((response) => {
       setUsers(response.data);
     });
   }, []);
@@ -42,7 +42,7 @@ function UserManagement() {
 
   const deleteUser = (userId) => {
     axios
-      .delete(`http://localhost:4000/auth/admin/users/${userId}`)
+      .delete(`https://tienda-be-production.up.railway.app/auth/admin/users/${userId}`)
       .then(() => {
         const updatedUsers = users.filter((user) => user._id !== userId);
         setUsers(updatedUsers);
@@ -54,7 +54,7 @@ function UserManagement() {
 
   const saveUserChanges = () => {
     axios
-      .put(`http://localhost:4000/auth/admin/users/${selectedUser._id}/role`, {
+      .put(`https://tienda-be-production.up.railway.app/auth/admin/users/${selectedUser._id}/role`, {
         role: newRole,
       })
       .then(() => {
