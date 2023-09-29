@@ -35,7 +35,6 @@ function AdminProductDetail() {
     message.loading({ content: "Loading... ", key: "product_update" });
 
     try {
-      // Incluye el campo "stock" en los valores enviados
       await updateProduct({ ...values, stock: values.stock }, product_id);
 
       message.success({
@@ -73,7 +72,7 @@ function AdminProductDetail() {
             description: data.description,
             price: data.price,
             photos: data.photos,
-            stock: data.stock, // Agrega el campo "stock"
+            stock: data.stock,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
