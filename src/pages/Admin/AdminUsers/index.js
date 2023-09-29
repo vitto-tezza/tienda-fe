@@ -29,7 +29,7 @@ function UserManagement() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/users`).then((response) => {
+    axios.get(`${process.env.REACT_APP_BASE_ENDPOINT}/auth/users`).then((response) => {
       setUsers(response.data);
     });
   }, []);
@@ -42,7 +42,7 @@ function UserManagement() {
 
   const deleteUser = (userId) => {
     axios
-      .delete(`${process.env.REACT_APP_BACKEND_URL}/auth/admin/users/${userId}`)
+      .delete(`${process.env.REACT_APP_BASE_ENDPOINT}/auth/admin/users/${userId}`)
       .then(() => {
         const updatedUsers = users.filter((user) => user._id !== userId);
         setUsers(updatedUsers);
@@ -54,7 +54,7 @@ function UserManagement() {
 
   const saveUserChanges = () => {
     axios
-      .put(`${process.env.REACT_APP_BACKEND_URL}/auth/admin/users/${selectedUser._id}/role`, {
+      .put(`${process.env.REACT_APP_BASE_ENDPOINT}/auth/admin/users/${selectedUser._id}/role`, {
         role: newRole,
       })
       .then(() => {

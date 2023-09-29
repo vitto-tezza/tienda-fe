@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import "../style.css";
-import { Formik, FieldArray } from "formik";
+import { Formik } from "formik";
 import validationSchema from "./validations";
 import { message } from "antd";
 
@@ -35,7 +35,8 @@ function AdminProductDetail() {
     message.loading({ content: "Loading... ", key: "product_update" });
 
     try {
-      await updateProduct(values, product_id);
+      // Incluye el campo "stock" en los valores enviados
+      await updateProduct({ ...values, stock: values.stock }, product_id);
 
       message.success({
         content: "The product successfully updates",
@@ -72,6 +73,7 @@ function AdminProductDetail() {
             description: data.description,
             price: data.price,
             photos: data.photos,
+            stock: data.stock, // Agrega el campo "stock"
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -138,40 +140,21 @@ function AdminProductDetail() {
                       )}
                     </FormControl>
                     <FormControl mt={4}>
-                      <FormLabel>Photos</FormLabel>
-                      <FieldArray
-                        name="photos"
-                        render={(arrayHelpers) => (
-                          <div>
-                            {values.photos &&
-                              values.photos.map((photo, index) => (
-                                <div key={index}>
-                                  <Input
-                                    name={`photos.${index}`}
-                                    value={photo}
-                                    disabled={isSubmitting}
-                                    onChange={handleChange}
-                                    width="90%"
-                                  />
-                                  <Button
-                                    ml="4"
-                                    type="button"
-                                    colorScheme="red"
-                                    onClick={() => arrayHelpers.remove(index)}
-                                  >
-                                    Remove
-                                  </Button>
-                                </div>
-                              ))}
-                            <Button
-                              mt="5"
-                              onClick={() => arrayHelpers.push("")}
-                            >
-                              Add a Photo
-                            </Button>
-                          </div>
-                        )}
+                      <FormLabel>Stock</FormLabel>
+                      <Input
+                        name="stock"
+                        type="number"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.stock}
+                        disabled={isSubmitting}
+                        isInvalid={touched.stock && errors.stock}
                       />
+                      {touched.stock && errors.stock && (
+                        <Text mt={2} color="red.500">
+                          {errors.stock}
+                        </Text>
+                      )}
                     </FormControl>
                     <Button
                       mt={4}

@@ -18,6 +18,7 @@ import {
   FormLabel,
   useDisclosure,
   Textarea,
+  useToast, 
 } from "@chakra-ui/react";
 import { useBasket } from "../../contexts/BasketContext";
 import { postOrder } from "../../api.js";
@@ -26,6 +27,7 @@ function Basket() {
   const [address, setAddress] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
+  const toast = useToast();
 
   const { items, removeFromBasket, emptyBasket } = useBasket();
   const total = items.reduce((acc, obj) => acc + obj.price, 0);
@@ -36,6 +38,19 @@ function Basket() {
       address,
       items: JSON.stringify(itemIds),
     };
+
+    const insufficientStockProducts = items.filter((item) => item.stock < 1);
+
+    if (insufficientStockProducts.length > 0) {
+      toast({
+        title: "Error",
+        description: `Algunos productos no tienen suficiente stock.`,
+        status: "error",
+        duration: 5000, 
+        isClosable: true,
+      });
+      return;
+    }
 
     await postOrder(input);
 
@@ -95,10 +110,10 @@ function Basket() {
               <ModalCloseButton />
               <ModalBody pb={6}>
                 <FormControl>
-                  <FormLabel>Adress</FormLabel>
+                  <FormLabel>Address</FormLabel>
                   <Textarea
                     ref={initialRef}
-                    placeholder="Adress"
+                    placeholder="Address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                   />

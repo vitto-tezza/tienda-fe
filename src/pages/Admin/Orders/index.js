@@ -27,6 +27,7 @@ function Orders() {
     return <div>Error {error.message}</div>;
   }
   console.log(data);
+
   return (
     <div>
       <nav>
@@ -67,8 +68,14 @@ function Orders() {
                 ) : (
                   <Td>{item.user.email}</Td>
                 )}
-                <Td>{item.adress}</Td>
-                <Td isNumeric>{item.items.length}</Td>
+                <Td>{item.address}</Td>
+                <Td isNumeric>
+                  <ul>
+                    {item.items.map((product) => (
+                      <li >{product._id}</li>
+                    ))}
+                  </ul>
+                </Td>
               </Tr>
             ))}
           </Tbody>

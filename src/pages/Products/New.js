@@ -57,13 +57,14 @@ function NewProduct() {
         </ul>
       </nav>
       <Box mt={10}>
-        <Text fontsize="2xl">Edit</Text>
+        <Text fontSize="2xl">Edit</Text>
         <Formik
           initialValues={{
             title: "",
             description: "",
             price: "",
             photos: [],
+            stock: 0,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -121,11 +122,27 @@ function NewProduct() {
                         onBlur={handleBlur}
                         value={values.price}
                         disabled={isSubmitting}
-                        isInvalid={touched.description && errors.description}
+                        isInvalid={touched.price && errors.price}
                       />
                       {touched.price && errors.price && (
                         <Text mt={2} color="red.500">
                           {errors.price}
+                        </Text>
+                      )}
+                    </FormControl>
+                    <FormControl mt={4}>
+                      <FormLabel>Stock</FormLabel>
+                      <Input
+                        name="stock"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.stock}
+                        disabled={isSubmitting}
+                        isInvalid={touched.stock && errors.stock}
+                      />
+                      {touched.stock && errors.stock && (
+                        <Text mt={2} color="red.500">
+                          {errors.stock}
                         </Text>
                       )}
                     </FormControl>
